@@ -54,7 +54,7 @@ public:
   RC create(Db *db, int32_t table_id, const char *path, const char *name, const char *base_dir,
       span<const AttrInfoSqlNode> attributes, StorageFormat storage_format);
 
-  RC Table::destroy(const char* dir); 
+  RC drop(const char* path); 
 
   /**
    * 打开一个表
