@@ -26,9 +26,35 @@ RC CharType::set_value_from_str(Value &val, const string &data) const
   return RC::SUCCESS;
 }
 
+bool check_date(int y, int m, int d)
+{
+    static int mon[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    bool leap = (y%400==0 || (y%100 && y%4==0));
+    return y > 0
+        && (m > 0)&&(m <= 12)
+        && (d > 0)&&(d <= ((m==2 && leap)?1:0) + mon[m]);
+}
+
 RC CharType::cast_to(const Value &val, AttrType type, Value &result) const
 {
   switch (type) {
+    case AttrType::DATES:
+    {
+      result.attr_type_ = AttrType::DATES;
+      int y,m,d;
+      if(sscanf(val.value_.pointer_value_,"%d-%d-%d", &y, &m , &d) !=3){
+        LOG_WARN("invalid date format: %s",val.value_.pointer_value_);
+        return RC::INVALID_ARGUMENT;
+      }
+      //要检查日期是否存在
+      bool check_res = check_date(y,m,d);
+      if(!check_res){
+        LOG_WARN("invalid date format: %s",val.value_.pointer_value_);
+        return RC::INVALID_ARGUMENT;
+      }
+      result.set_date(y,m,d);
+      return RC::SUCCESS;
+    }break;
     default: return RC::UNIMPLEMENTED;
   }
   return RC::SUCCESS;
@@ -38,6 +64,10 @@ int CharType::cast_cost(AttrType type)
 {
   if (type == AttrType::CHARS) {
     return 0;
+  }
+
+  if (type == AttrType::DATES) {
+    return 1;
   }
   return INT32_MAX;
 }
