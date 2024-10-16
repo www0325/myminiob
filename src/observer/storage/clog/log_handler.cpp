@@ -19,13 +19,13 @@ See the Mulan PSL v2 for more details. */
 #include "storage/clog/disk_log_handler.h"
 #include "storage/clog/vacuous_log_handler.h"
 
-RC LogHandler::append(LSN &lsn, LogModule::Id module, span<const char> data)
+RC LogHandler::append(LSN &lsn, LogModule::Id module, span<const char> data)    //调用下面那个append
 {
   vector<char> data_vec(data.begin(), data.end());
   return append(lsn, module, std::move(data_vec));
 }
 
-RC LogHandler::append(LSN &lsn, LogModule::Id module, vector<char> &&data)
+RC LogHandler::append(LSN &lsn, LogModule::Id module, vector<char> &&data)      //调用其具体子类的append方法，即上面的后面两个include
 {
   return _append(lsn, LogModule(module), std::move(data));
 }

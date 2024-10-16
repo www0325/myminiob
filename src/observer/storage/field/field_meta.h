@@ -44,7 +44,7 @@ public:
   int         field_id() const;
 
 public:
-  void desc(ostream &os) const;
+  void desc(ostream &os) const;       //用于将内容传到输出流
 
 public:
   void      to_json(Json::Value &json_value) const;

@@ -24,6 +24,7 @@ class BufferPoolManager;
 class LogHandler;
 struct Page;
 
+
 /**
  * @brief BufferPool 的日志相关操作类型
  * @ingroup CLog
@@ -31,7 +32,7 @@ struct Page;
 class BufferPoolOperation
 {
 public:
-  enum class Type : int32_t
+  enum class Type : int32_t      //这是一个枚举类，放在了类的内部，表示成员type_只有两种取值，ALLOCATE表示取0,
   {
     ALLOCATE,   /// 分配页面
     DEALLOCATE  /// 释放页面
@@ -39,7 +40,7 @@ public:
 
 public:
   BufferPoolOperation(Type type) : type_(type) {}
-  explicit BufferPoolOperation(int32_t type) : type_(static_cast<Type>(type)) {}
+  explicit BufferPoolOperation(int32_t type) : type_(static_cast<Type>(type)) {}  //构造函数，static_cast用于编译时的类型转换
   ~BufferPoolOperation() = default;
 
   Type    type() const { return type_; }
@@ -47,7 +48,7 @@ public:
 
   string to_string() const
   {
-    string ret = std::to_string(type_id()) + ":";
+    string ret = std::to_string(type_id()) + ":";     //调用上面的函数得到对应的整数值
     switch (type_) {
       case Type::ALLOCATE: return ret + "ALLOCATE";
       case Type::DEALLOCATE: return ret + "DEALLOCATE";
@@ -56,7 +57,7 @@ public:
   }
 
 private:
-  Type type_;
+  Type type_;                         //成员：表示类型
 };
 
 /**
@@ -112,7 +113,7 @@ private:
 };
 
 /**
- * @brief BufferPool 的日志重放器
+ * @brief BufferPool 的日志重放器,即redo
  * @ingroup CLog
  */
 class BufferPoolLogReplayer final : public LogReplayer

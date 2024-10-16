@@ -21,7 +21,7 @@ static constexpr const char *TABLE_META_FILE_PATTERN = ".*\\.table$";
 static constexpr const char *TABLE_DATA_SUFFIX       = ".data";
 static constexpr const char *TABLE_INDEX_SUFFIX      = ".index";
 
-string db_meta_file(const char *base_dir, const char *db_name);
-string table_meta_file(const char *base_dir, const char *table_name);
-string table_data_file(const char *base_dir, const char *table_name);
-string table_index_file(const char *base_dir, const char *table_name, const char *index_name);
+string db_meta_file(const char *base_dir, const char *db_name);           //返回数据库元数据文件的完整路径，路径的后缀由 DB_META_SUFFIX 定义
+string table_meta_file(const char *base_dir, const char *table_name);     //返回表元数据文件的完整路径
+string table_data_file(const char *base_dir, const char *table_name);     //返回表数据文件的完整路径
+string table_index_file(const char *base_dir, const char *table_name, const char *index_name);  //返回表索引文件的完整路径

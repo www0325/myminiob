@@ -137,7 +137,7 @@ public:
 
   char *data() { return page_.data; }
 
-  bool can_purge() { return pin_count_.load() == 0; }
+  bool can_purge() { return pin_count_.load() == 0; }           //是否可以淘汰
 
   /**
    * @brief 给当前页帧增加引用计数
@@ -171,10 +171,10 @@ public:
 private:
   friend class BufferPool;
 
-  bool          dirty_ = false;
-  atomic<int>   pin_count_{0};
-  unsigned long acc_time_ = 0;
-  FrameId       frame_id_;
+  bool          dirty_ = false;                //是否是脏页
+  atomic<int>   pin_count_{0};                 //记录是否淘汰
+  unsigned long acc_time_ = 0;                 
+  FrameId       frame_id_;                   
   Page          page_;
 
   /// 在非并发编译时，加锁解锁动作将什么都不做
